@@ -27,17 +27,32 @@ I've seen people are unable to locate it as it's not included in newer versions 
 	<string>com.github.ruphysics.download.Matlab</string>
 	<key>Process</key>
 	<array>
+
 		<dict>
 			<key>Processor</key>
 			<string>PkgRootCreator</string>
 			<key>Arguments</key>
 			<dict>
 				<key>pkgroot</key>
-				<string>%RECIPE_CACHE_DIR%/Scripts</string>
+				<string>%RECIPE_CACHE_DIR%/scripts</string>
 				<key>pkgdirs</key>
 				<dict/>
 			</dict>
 		</dict>
+
+		<dict>
+			<key>Processor</key>
+			<string>PkgRootCreator</string>
+			<key>Arguments</key>
+			<dict>
+				<key>pkgroot</key>
+				<string>%RECIPE_CACHE_DIR%/foobar</string>
+				<key>pkgdirs</key>
+				<dict/>
+			</dict>
+		</dict>
+
+
 		<dict>
 			<key>Processor</key>
 			<string>PkgRootCreator</string>
@@ -52,13 +67,29 @@ I've seen people are unable to locate it as it's not included in newer versions 
 
 		<dict>
 			<key>Processor</key>
+			<string>FileCreator</string>
+			<key>Arguments</key>
+			<dict>
+				<key>file_content</key>
+				<string># do nothing; </string>
+				<key>file_mode</key>
+				<string>0755</string>
+				<key>file_path</key>
+				<string>%RECIPE_CACHE_DIR%/foobar/foo</string>
+			</dict>
+		</dict>
+
+
+
+		<dict>
+			<key>Processor</key>
 			<string>Copier</string>
 			<key>Arguments</key>
 			<dict>
 				<key>source_path</key>
 				<string>%SOURCE_DMG%</string>
 				<key>destination_path</key>
-				<string>%RECIPE_CACHE_DIR%/Scripts/%NAME%.dmg</string>
+				<string>%RECIPE_CACHE_DIR%/foobar/thing.dmg</string>
 				<key>overwrite</key>
 				<true/>
 			</dict>
@@ -71,7 +102,7 @@ I've seen people are unable to locate it as it's not included in newer versions 
 				<key>source_path</key>
 				<string>%INSTALLER_INPUT%</string>
 				<key>destination_path</key>
-				<string>%RECIPE_CACHE_DIR%/Scripts/installer_input.txt</string>
+				<string>%RECIPE_CACHE_DIR%/foobar/installer_input.txt</string>
 				<key>overwrite</key>
 				<true/>				
 			</dict>
@@ -87,7 +118,7 @@ I've seen people are unable to locate it as it's not included in newer versions 
 ###################################################################################################
 # Script Name:  install_MatLab.sh
 # By:  Zack Thompson / Created:  3/6/2017
-# Version:  1.6 / Updated:  3/29/2018 / By:  ZT github.com/autopkg/MLBZ521-recipes
+# Version:  1.6 / Updated:  3/29/2018 / By:  ZT
 # Version: 1.7 / Updated 2/7/2022 / By: mforrest@ryerson.ca
 #
 # Description:  This script installs MatLab.
@@ -110,31 +141,20 @@ version="%version%"
 # Install MatLab with option file.
 echo "Installing Matlab..."
 
-if hdiutil mount $pkgDir/"%NAME".dmg -mountpoint /Volumes/matlab; then
-	mlroot=/Volumes/matlab
-else
-	echo "Error mounting %NAME%.dmg"
-	exit 1
-fi
-
-
-
 	# Inject license location to the installer.input file
 	LANG=C /usr/bin/sed -Ei '' 's,(#)? ?licensePath=.*,'"licensePath=${pkgDir}/license.dat"',' "${pkgDir}/installer_input.txt"
 
 
 if [[ $version == "2017a" ]]; then
 	# -mode silent did not work in the option file for me.
-	exitStatus=$("${mlroot}/install" -mode silent -inputFile "${pkgDir}/installer_input.txt")
+	exitStatus=$("${pkgDir}/install" -mode silent -inputFile "${pkgDir}/installer_input.txt")
 elif [[ $version == "2017b" ]]; then
 	# I'm assuming all future version will be packaged in this manner...(/hoping)..?
-	exitStatus=$("${mlroot}/InstallForMacOSX.app/Contents/MacOS/InstallForMacOSX" -inputFile "${pkgDir}/installer_input.txt")
+	exitStatus=$("${pkgDir}/InstallForMacOSX.app/Contents/MacOS/InstallForMacOSX" -inputFile "${pkgDir}/installer_input.txt")
 else
-	exitStatus=$("${mlroot}/InstallForMacOSX.app/Contents/MacOS/InstallForMacOSX" -inputFile "${pkgDir}/installer_input.txt")
+	exitStatus=$("${pkgDir}/InstallForMacOSX.app/Contents/MacOS/InstallForMacOSX" -inputFile "${pkgDir}/installer_input.txt")
 fi
 exitCode=$?
-
-hdiutil unmount /Volumes/matlab
 
 if [[ $exitCode != 0 ]]; then
 	echo "Exit Code:  ${exitCode}"
@@ -154,7 +174,7 @@ exit 0</string>
 				<key>file_mode</key>
 				<string>0755</string>
 				<key>file_path</key>
-				<string>%RECIPE_CACHE_DIR%/Scripts/postinstall</string>
+			<string>%RECIPE_CACHE_DIR%/foobar/postinstall</string>
 			</dict>
 		</dict>
 		<dict>
@@ -175,7 +195,7 @@ exit 0</string>
 					<key>options</key>
 					<string>purge_ds_store</string>
 					<key>scripts</key>
-					<string>Scripts</string>
+					<string>%RECIPE_CACHE_DIR%/foobar</string>
 				</dict>
 			</dict>
 		</dict>
@@ -187,7 +207,7 @@ exit 0</string>
 				<key>path_list</key>
 				<array>
 					<string>%RECIPE_CACHE_DIR%/pkgroot</string>
-					<string>%RECIPE_CACHE_DIR%/Scripts</string>
+					<string>%RECIPE_CACHE_DIR%/scripts</string>
 				</array>
 			</dict>
 		</dict>
