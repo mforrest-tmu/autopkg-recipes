@@ -49,7 +49,7 @@ I've seen people are unable to locate it as it's not included in newer versions 
 				<dict/>
 			</dict>
 		</dict>
-
+<!-->
 		<dict>
 			<key>Processor</key>
 			<string>URLDownloader</string>
@@ -61,34 +61,23 @@ I've seen people are unable to locate it as it's not included in newer versions 
 				<string>%RECIPE_CACHE_DIR%/Scripts/</string>
 			</dict>
 		</dict>
-
-		<dict>
-			<key>Processor</key>
-			<string>AppDmgVersioner</string>
-			<key>Arguments</key>
-			<dict>
-				<key>dmg_path</key>
-				<string>%pathname%</string>
-			</dict>
-		</dict>
+-->
 
 
-
-<!-->
 		<dict>
 			<key>Processor</key>
 			<string>Copier</string>
 			<key>Arguments</key>
 			<dict>
 				<key>source_path</key>
-				<string>%SOURCE_DMG%</string>
+				<string>%SOURCE_DMG%/</string>
 				<key>destination_path</key>
-				<string>%RECIPE_CACHE_DIR%/Scripts/%NAME%.dmg</string>
+				<string>%RECIPE_CACHE_DIR%/Scripts/</string>
 				<key>overwrite</key>
 				<true/>
 			</dict>
 		</dict>
-		-->
+
 		<dict>
 			<key>Processor</key>
 			<string>Copier</string>
@@ -136,14 +125,6 @@ version="%version%"
 # Install MatLab with option file.
 echo "Installing Matlab..."
 
-if hdiutil mount $pkgDir/"%NAME".dmg -mountpoint /Volumes/matlab; then
-	mlroot=/Volumes/matlab
-else
-	echo "Error mounting %NAME%.dmg"
-	exit 1
-fi
-
-
 
 	# Inject license location to the installer.input file
 	LANG=C /usr/bin/sed -Ei '' 's,(#)? ?licensePath=.*,'"licensePath=${pkgDir}/license.dat"',' "${pkgDir}/installer_input.txt"
@@ -151,16 +132,14 @@ fi
 
 if [[ $version == "2017a" ]]; then
 	# -mode silent did not work in the option file for me.
-	exitStatus=$("${mlroot}/install" -mode silent -inputFile "${pkgDir}/installer_input.txt")
+	exitStatus=$("${pkgDir}/install" -mode silent -inputFile "${pkgDir}/installer_input.txt")
 elif [[ $version == "2017b" ]]; then
 	# I'm assuming all future version will be packaged in this manner...(/hoping)..?
-	exitStatus=$("${mlroot}/InstallForMacOSX.app/Contents/MacOS/InstallForMacOSX" -inputFile "${pkgDir}/installer_input.txt")
+	exitStatus=$("${pkgDir}/InstallForMacOSX.app/Contents/MacOS/InstallForMacOSX" -inputFile "${pkgDir}/installer_input.txt")
 else
-	exitStatus=$("${mlroot}/InstallForMacOSX.app/Contents/MacOS/InstallForMacOSX" -inputFile "${pkgDir}/installer_input.txt")
+	exitStatus=$("${pkgDir}/InstallForMacOSX.app/Contents/MacOS/InstallForMacOSX" -inputFile "${pkgDir}/installer_input.txt")
 fi
 exitCode=$?
-
-hdiutil unmount /Volumes/matlab
 
 if [[ $exitCode != 0 ]]; then
 	echo "Exit Code:  ${exitCode}"
@@ -195,7 +174,7 @@ exit 0</string>
 					<key>pkgroot</key>
 					<string>%RECIPE_CACHE_DIR%/pkgroot</string>
 					<key>version</key>
-					<string>%version%</string>
+					<string>%ML_RELEASE%</string>
 					<key>id</key>
 					<string>com.mathworks.installer</string>
 					<key>options</key>
