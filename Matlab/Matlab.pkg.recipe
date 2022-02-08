@@ -6,7 +6,7 @@
 	<string>Downloads and packages the latest verison of Matlab from a local file share.
 need to set:
  ML_RELEASE - version of matlab ie R2021a
- INSTALLER_INPUT - unattended install fall; requires file-install-key set inside here & all other options
+ INSTALLER_INPUT - unattended install fall; requires file-install-key set inside here and all other options
  SOURCE_DMG - location of this release 
  LICENSE_DAT - valid license.dat for network file OR empty file for user activation; file must exist!
 	</string>
