@@ -52,6 +52,31 @@ I've seen people are unable to locate it as it's not included in newer versions 
 
 		<dict>
 			<key>Processor</key>
+			<string>URLDownloader</string>
+			<key>Arguments</key>
+			<dict>
+				<key>url</key>
+				<string>file://%SOURCE_DMG%</string>
+				<key>download_dir</key>
+				<string>%RECIPE_CACHE_DIR%/Scripts/</string>
+			</dict>
+		</dict>
+
+		<dict>
+			<key>Processor</key>
+			<string>AppDmgVersioner</string>
+			<key>Arguments</key>
+			<dict>
+				<key>dmg_path</key>
+				<string>%pathname%</string>
+			</dict>
+		</dict>
+
+
+
+<!-->
+		<dict>
+			<key>Processor</key>
 			<string>Copier</string>
 			<key>Arguments</key>
 			<dict>
@@ -63,6 +88,7 @@ I've seen people are unable to locate it as it's not included in newer versions 
 				<true/>
 			</dict>
 		</dict>
+		-->
 		<dict>
 			<key>Processor</key>
 			<string>Copier</string>
