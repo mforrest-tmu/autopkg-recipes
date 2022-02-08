@@ -9,6 +9,7 @@ need to set:
  ML_RELEASE - version of matlab ie R2021a
  INSTALLER_INPUT - unattended install fall; requires file-install-key set inside here & all other options
  SOURCE_DMG - location of this release 
+ LICENSE_DAT - valid license.dat for network file OR empty file for user activation; file must exist!
 
 
 	</string>
@@ -45,7 +46,8 @@ need to set:
 				<dict/>
 			</dict>
 		</dict>
-<!-->
+		
+<!-- not needed... always copy from network dmg? may be faster if it doesn't alwasy need to download.... >
 		<dict>
 			<key>Processor</key>
 			<string>URLDownloader</string>
@@ -53,8 +55,6 @@ need to set:
 			<dict>
 				<key>url</key>
 				<string>file://%SOURCE_DMG%</string>
-				<key>download_dir</key>
-				<string>%RECIPE_CACHE_DIR%/Scripts/</string>
 			</dict>
 		</dict>
 -->
@@ -83,6 +83,19 @@ need to set:
 				<string>%INSTALLER_INPUT%</string>
 				<key>destination_path</key>
 				<string>%RECIPE_CACHE_DIR%/Scripts/installer_input.txt</string>
+				<key>overwrite</key>
+				<true/>				
+			</dict>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>Copier</string>
+			<key>Arguments</key>
+			<dict>
+				<key>source_path</key>
+				<string>%LICENSE_DAT%</string>
+				<key>destination_path</key>
+				<string>%RECIPE_CACHE_DIR%/Scripts/license.dat</string>
 				<key>overwrite</key>
 				<true/>				
 			</dict>
