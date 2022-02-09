@@ -14,6 +14,18 @@ need to set:
 	<string>com.github.ruphysics.pkg.Matlab</string>
 	<key>Input</key>
 	<dict>
+		<key>ML_RELEASE</key>
+		<string>R?????</string>
+		<key>INSTALLER_INPUT</key>
+		<string>%RECIPE_DIR%/installer_input_%ML_RELEASE%.txt</string>
+		<key>INSTALLER_INPUT</key>
+		<string>%RECIPE_DIR%/license.dat</string>
+		<key>SOURCE_DMG</key>
+		<string>matlab.dmg</string>
+		<key>version</key>
+		<string>20220209.1</string>
+
+	
 		<key>NAME</key>
 		<string>Matlab %ML_RELEASE%</string>
 	</dict>
@@ -146,17 +158,31 @@ echo "Installing Matlab..."
 	# Inject license location to the installer.input file
 	LANG=C /usr/bin/sed -Ei '' 's,(#)? ?licensePath=.*,'"licensePath=${pkgDir}/license.dat"',' "${pkgDir}/installer_input.txt"
 
+case $version in
+	R2017a)
+		# -mode silent did not work in the option file for me.
+		exitStatus=$("${pkgDir}/install" -mode silent -inputFile "${pkgDir}/installer_input.txt")
+		exitCode=$?
+		;;
+	R2017b)
+		# I'm assuming all future version will be packaged in this manner...(/hoping)..?
+		exitStatus=$("${pkgDir}/InstallForMacOSX.app/Contents/MacOS/InstallForMacOSX" -inputFile "${pkgDir}/installer_input.txt")
+		exitCode=$?
+		;;
+	*)
+		# R2021a confirmed working
+#debug	
+		echo version:$version
+		echo install_cmd: "${pkgDir}/InstallForMacOSX.app/Contents/MacOS/InstallForMacOSX" -inputFile "${pkgDir}/installer_input.txt"
 
-if [[ $version == "2017a" ]]; then
-	# -mode silent did not work in the option file for me.
-	exitStatus=$("${pkgDir}/install" -mode silent -inputFile "${pkgDir}/installer_input.txt")
-elif [[ $version == "2017b" ]]; then
-	# I'm assuming all future version will be packaged in this manner...(/hoping)..?
-	exitStatus=$("${pkgDir}/InstallForMacOSX.app/Contents/MacOS/InstallForMacOSX" -inputFile "${pkgDir}/installer_input.txt")
-else
-	exitStatus=$("${pkgDir}/InstallForMacOSX.app/Contents/MacOS/InstallForMacOSX" -inputFile "${pkgDir}/installer_input.txt")
-fi
-exitCode=$?
+		exitStatus=$("${pkgDir}/InstallForMacOSX.app/Contents/MacOS/InstallForMacOSX" -inputFile "${pkgDir}/installer_input.txt")
+		exitCode=$?
+		;;
+esac
+
+#debug
+echo exitCode:$exitCode: exitStatus:$exitStatus:
+
 
 if [[ $exitCode != 0 ]]; then
 	echo "Exit Code:  ${exitCode}"
@@ -187,7 +213,7 @@ exit 0</string>
 				<key>pkg_request</key>
 				<dict>
 					<key>pkgname</key>
-					<string>%NAME%</string>
+					<string>%NAME%-%version%</string>
 					<key>pkgroot</key>
 					<string>%RECIPE_CACHE_DIR%/pkgroot</string>
 					<key>version</key>
