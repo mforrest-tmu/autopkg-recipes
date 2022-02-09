@@ -69,7 +69,7 @@
 				<key>self_service_icon</key>
 				<string>%SELF_SERVICE_ICON%</string>
 				<key>version</key>
-				<string>%version%</string>
+				<string>%ML_RELEASE%</string>
 			</dict>
 			<key>Processor</key>
 			<string>JSSImporter</string>
