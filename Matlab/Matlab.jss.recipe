@@ -12,9 +12,11 @@
 		<key>ML_RELEASE</key>
 		<string>R2021a</string>
 		<key>INSTALLER_INPUT</key>
-		<string>installer_input_%ML_RELEASE%.txt</string>
+		<string>%RECIPE_DIR%/installer_input_%ML_RELEASE%.txt</string>
+		<key>INSTALLER_INPUT</key>
+		<string>%RECIPE_DIR%/license.dat</string>
 		<key>SOURCE_DMG</key>
-		<string>/Volumes/Software/PACKAGES/MATLAB/matlab_downloads/%ML_RELEASE%/matlab_%ML_RELEASE%_maci64.dmg</string>
+		<string>/Volumes/Software/PACKAGES/MATLAB/matlab_downloads/%ML_RELEASE%/*%ML_RELEASE%*.dmg</string>
 
 
 		<key>CATEGORY</key>
