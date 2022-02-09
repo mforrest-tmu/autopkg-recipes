@@ -63,7 +63,7 @@ need to set:
 			<key>Arguments</key>
 			<dict>
 				<key>pattern</key>
-				<string>%SOURCE_DMG%/</string>
+				<string>%SOURCE_DMG%</string>
 			</dict>
 		</dict>
 
