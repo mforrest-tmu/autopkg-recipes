@@ -13,10 +13,16 @@
                 <key>RELEASE</key>
                 <string>1.6</string>
                 <!-- in May 2022, v1.6.x is LTS, v1.7.x is current, v1.8.x is beta -->
-                <key>ARCHITECTURE</key>
+                <key>ARCH_DL</key>
                 <string>mac64</string>
                 <!-- use mac64 for intel; macaarch64 for M1 -->
+                <key>ARCH_JSS</key>
+                <string>x86_64</string>
+                <!-- use mac64/x68_64 for intel; macaarch64/arm64 for M1 -->
                 
+               
+                <key>ARCH_FILENAME</key>
+                <string>Julia-%ARCH_JSS%-%RELEASE%</string>
                 <key>APP_FILENAME</key>
                 <string>Julia-%RELEASE%</string>
                 <key>NAME</key>
@@ -24,13 +30,13 @@
                 <key>SEARCH_URL</key>
                 <string>https://julialang.org/downloads/</string>
                 <key>SEARCH_PATTERN</key>
-                <string>https:\/\/[^\"]*/julia-%RELEASE%[^\"]*-%ARCHITECTURE%.dmg</string>
+                <string>https:\/\/[^\"]*/julia-%RELEASE%[^\"]*-%ARCH_DL%.dmg</string>
 
 
 		<key>CATEGORY</key>
 		<string>Computer Science</string>
 		<key>GROUP_NAME</key>
-		<string>Update-Smart-%APP_FILENAME%</string>
+		<string>Update-Smart-%ARCH_FILENAME%</string>
 		<key>GROUP_TEMPLATE</key>
 		<string>SmartGroupTemplate.xml</string>
 		<key>NAME</key>
@@ -67,13 +73,13 @@
 					</dict>
 				</array>
 				<key>jss_inventory_name</key>
-				<string>%APP_FILENAME%</string>
+				<string>%ARCH_FILENAME%</string>
 				<key>policy_category</key>
 				<string>%POLICY_CATEGORY%</string>
 				<key>policy_template</key>
 				<string>%POLICY_TEMPLATE%</string>
 				<key>prod_name</key>
-				<string>%APP_FILENAME%</string>
+				<string>%ARCH_FILENAME%</string>
 				<key>self_service_description</key>
 				<string>%SELF_SERVICE_DESCRIPTION%</string>
 				<key>self_service_icon</key>

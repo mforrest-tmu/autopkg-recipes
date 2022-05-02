@@ -13,18 +13,20 @@
 		<key>RELEASE</key>
 		<string>1.6</string>
 		<!-- in May 2022, v1.6.x is LTS, v1.7.x is current, v1.8.x is beta -->
-		<key>ARCHITECTURE</key>
-		<string>mac64</string>
-		<!-- use mac64 for intel; macaarch64 for M1 -->
-		
+                <key>ARCH_DL</key>
+                <string>mac64</string>
+                <key>ARCH_JSS</key>
+                <string>x86_64</string>
+                <!-- use mac64/x68_64 for intel; macaarch64/arm64 for M1 -->
+
 		<key>APP_FILENAME</key>
-		<string>Julia-%RELEASE%</string>
+		<string>%NAME%-%RELEASE%</string>
 		<key>NAME</key>
 		<string>Julia</string>
 		<key>SEARCH_URL</key>
 		<string>https://julialang.org/downloads/</string>
 		<key>SEARCH_PATTERN</key>
-		<string>https:\/\/[^\"]*/julia-%RELEASE%[^\"]*-%ARCHITECTURE%.dmg</string>
+		<string>https:\/\/[^\"]*/julia-%RELEASE%[^\"]*-%ARCH_DL%.dmg</string>
 	</dict>
 	<key>MinimumVersion</key>
 	<string>1.0.0</string>
@@ -36,7 +38,7 @@
 			<key>Arguments</key>
 			<dict>
 				<key>pkg_path</key>
-				<string>%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg</string>
+				<string>%RECIPE_CACHE_DIR%/%NAME%-%ARCH_JSS%-%version%.pkg</string>
 			</dict>
 
 			<key>Processor</key>
