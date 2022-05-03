@@ -21,12 +21,10 @@
                 <!-- use mac64/x68_64 for intel; macaarch64/arm64 for M1 -->
                 
                
-                <key>ARCH_FILENAME</key>
-                <string>Julia-%ARCH_JSS%-%RELEASE%</string>
                 <key>APP_FILENAME</key>
                 <string>Julia-%RELEASE%</string>
                 <key>NAME</key>
-                <string>Julia</string>
+                <string>Julia-%RELEASE%-%ARCH_JSS%</string>
                 <key>SEARCH_URL</key>
                 <string>https://julialang.org/downloads/</string>
                 <key>SEARCH_PATTERN</key>
@@ -36,7 +34,7 @@
 		<key>CATEGORY</key>
 		<string>Computer Science</string>
 		<key>GROUP_NAME</key>
-		<string>Update-Smart-%ARCH_FILENAME%</string>
+		<string>Update-Smart-%NAME%</string>
 		<key>GROUP_TEMPLATE</key>
 		<string>SmartGroupTemplate.xml</string>
 		<key>NAME</key>
@@ -48,7 +46,7 @@
 		<key>SELF_SERVICE_DESCRIPTION</key>
 		<string></string>
 		<key>SELF_SERVICE_ICON</key>
-		<string>%RECIPE_DIR%/%NAME%.png</string>
+		<string>%RECIPE_DIR%/Julia.png</string>
 	</dict>
 	<key>MinimumVersion</key>
 	<string>1.0.0</string>
@@ -73,13 +71,13 @@
 					</dict>
 				</array>
 				<key>jss_inventory_name</key>
-				<string>%ARCH_FILENAME%</string>
+				<string>%NAME%</string>
 				<key>policy_category</key>
 				<string>%POLICY_CATEGORY%</string>
 				<key>policy_template</key>
 				<string>%POLICY_TEMPLATE%</string>
 				<key>prod_name</key>
-				<string>%ARCH_FILENAME%</string>
+				<string>%NAME%</string>
 				<key>self_service_description</key>
 				<string>%SELF_SERVICE_DESCRIPTION%</string>
 				<key>self_service_icon</key>
