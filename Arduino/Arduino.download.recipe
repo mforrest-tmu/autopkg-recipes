@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Comment</key>
+	<string>Created with Recipe Robot v2.2.0 (https://github.com/homebysix/recipe-robot)</string>
+	<key>Description</key>
+	<string>Downloads the latest version of Arduino.</string>
+	<key>Identifier</key>
+	<string>com.github.ruphysics.download.Arduino</string>
+	<key>Input</key>
+	<dict>
+                <key>RELEASE</key>
+                <string>2.0</string>
+                <!-- in Dec 2022, v1.8.x is old, v2.0.x is current -->
+                <key>ARCHITECTURE</key>
+                <string>mac64</string>
+                <!-- use mac64 for intel; macaarch64 for M1 -->
+
+                <key>APP_FILENAME</key>
+                <string>Arduino-%RELEASE%</string>
+                <key>NAME</key>
+                <string>Julia</string>
+                <key>SEARCH_URL</key>
+                <string>https://julialang.org/downloads/</string>
+                <key>SEARCH_PATTERN</key>
+                <string>https:\/\/[^\"]*/julia-%RELEASE%[^\"]*-%ARCHITECTURE%.dmg</string>
+	</dict>
+	<key>MinimumVersion</key>
+	<string>1.0.0</string>
+	<key>Process</key>
+	<array>
+
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>url</key>
+				<string>%SEARCH_URL%</string>
+				<key>re_pattern</key>
+				<string>%SEARCH_PATTERN%</string>
+			</dict>
+			<key>Processor</key>
+			<string>URLTextSearcher</string>
+		</dict>
+
+
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>filename</key>
+				<string>%APP_FILENAME%.dmg</string>
+				<key>url</key>
+				<string>%match%</string>
+			</dict>
+			<key>Processor</key>
+			<string>URLDownloader</string>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>EndOfCheckPhase</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>input_path</key>
+				<string>%pathname%/%APP_FILENAME%.app</string>
+				<key>requirement</key>
+				<string>identifier "org.julialang.launcherapp" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = A427R7F42H</string>
+			</dict>
+			<key>Processor</key>
+			<string>CodeSignatureVerifier</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>input_plist_path</key>
+				<string>%pathname%/%APP_FILENAME%.app/Contents/Info.plist</string>
+				<key>plist_version_key</key>
+				<string>CFBundleShortVersionString</string>
+			</dict>
+			<key>Processor</key>
+			<string>Versioner</string>
+		</dict>
+	</array>
+</dict>
+</plist>

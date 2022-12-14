@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Comment</key>
+	<string>Created with Recipe Robot v2.2.0 (https://github.com/homebysix/recipe-robot)</string>
+	<key>Description</key>
+	<string>Downloads the latest version of Julia and creates a package.</string>
+	<key>Identifier</key>
+	<string>com.github.ruphysics.pkg.Julia</string>
+	<key>Input</key>
+	<dict>
+		<key>RELEASE</key>
+		<string>1.6</string>
+		<!-- in May 2022, v1.6.x is LTS, v1.7.x is current, v1.8.x is beta -->
+                <key>ARCH_DL</key>
+                <string>mac64</string>
+                <key>ARCH_JSS</key>
+                <string>x86_64</string>
+                <!-- use mac64/x68_64 for intel; macaarch64/arm64 for M1 -->
+
+		<key>APP_FILENAME</key>
+		<string>Julia-%RELEASE%</string>
+		<key>NAME</key>
+		<string>Julia-%RELEASE%-%ARCH_JSS%</string>
+		<key>SEARCH_URL</key>
+		<string>https://julialang.org/downloads/</string>
+		<key>SEARCH_PATTERN</key>
+		<string>https:\/\/[^\"]*/julia-%RELEASE%[^\"]*-%ARCH_DL%.dmg</string>
+	</dict>
+	<key>MinimumVersion</key>
+	<string>1.0.0</string>
+	<key>ParentRecipe</key>
+	<string>com.github.ruphysics.download.Julia</string>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>pkg_path</key>
+				<string>%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg</string>
+			</dict>
+			<key>Processor</key>
+			<string>AppPkgCreator</string>
+		</dict>
+	</array>
+</dict>
+</plist>

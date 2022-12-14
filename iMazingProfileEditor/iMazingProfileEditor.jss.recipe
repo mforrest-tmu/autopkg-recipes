@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Downloads the current release version of iMazing's Profile Editor, builds an installer package, then uploads to the JSS.</string>
+	<key>Identifier</key>
+	<string>local.jss.iMazingProfileEditor</string>
+	<key>Input</key>
+	<dict>
+		<key>CATEGORY</key>
+		<string>Admin Tools</string>
+		<key>DESCRIPTION</key>
+		<string>Create, edit, and sign Apple configuration profiles which are ready to be deployed to your Apple devices.</string>
+		<key>GROUP_NAME</key>
+		<string>Update-Smart-%NAME%</string>
+		<key>GROUP_TEMPLATE</key>
+		<string>SmartGroupTemplate.xml</string>
+		<key>ICON</key>
+		<string>%RECIPE_DIR%/iMazingProfileEditor.png</string>
+		<key>NAME</key>
+		<string>iMazingProfileEditor</string>
+		<key>POLICY_CATEGORY</key>
+		<string>Testing</string>
+		<key>POLICY_TEMPLATE</key>
+		<string>%RECIPE_DIR%/PolicyTemplate.xml</string>
+	</dict>
+	<key>MinimumVersion</key>
+	<string>1.0.0</string>
+	<key>ParentRecipe</key>
+	<string>com.github.rtrouton.pkg.iMazingProfileEditor</string>
+	<key>ParentRecipeTrustInfo</key>
+	<dict>
+		<key>non_core_processors</key>
+		<dict/>
+		<key>parent_recipes</key>
+		<dict>
+			<key>com.github.rtrouton.download.iMazingProfileEditor</key>
+			<dict>
+				<key>git_hash</key>
+				<string>6151edc6d742b2b37337bf3710032c5b4a398c96</string>
+				<key>path</key>
+				<string>~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/iMazingProfileEditor/iMazingProfileEditor.download.recipe</string>
+				<key>sha256_hash</key>
+				<string>e84df3708fb4d643cee8aa95e4aa4d1059999cb7e90d5f6a5b63a250bb9c36e9</string>
+			</dict>
+			<key>com.github.rtrouton.pkg.iMazingProfileEditor</key>
+			<dict>
+				<key>git_hash</key>
+				<string>fdf115aabb3094d7825a9d9e196759645c3e2512</string>
+				<key>path</key>
+				<string>~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/iMazingProfileEditor/iMazingProfileEditor.pkg.recipe</string>
+				<key>sha256_hash</key>
+				<string>fd728b65e7bff33f14ee1ca542e0bc4bc5520cb9dd9a02c140bd3c21593fcc8d</string>
+			</dict>
+		</dict>
+	</dict>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>category</key>
+				<string>%CATEGORY%</string>
+				<key>groups</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>%GROUP_NAME%</string>
+						<key>smart</key>
+						<true/>
+						<key>template_path</key>
+						<string>%GROUP_TEMPLATE%</string>
+					</dict>
+				</array>
+				<key>jss_inventory_name</key>
+				<string>%NAME%</string>
+				<key>policy_category</key>
+				<string>%POLICY_CATEGORY%</string>
+				<key>policy_template</key>
+				<string>%POLICY_TEMPLATE%</string>
+				<key>prod_name</key>
+				<string>%NAME%</string>
+				<key>self_service_description</key>
+				<string>%DESCRIPTION%</string>
+				<key>self_service_icon</key>
+				<string>%ICON%</string>
+			</dict>
+			<key>Processor</key>
+			<string>JSSImporter</string>
+		</dict>
+	</array>
+</dict>
+</plist>
