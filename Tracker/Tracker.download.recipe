@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Comment</key>
+	<string>Created with Recipe Robot v2.2.0 (https://github.com/homebysix/recipe-robot)</string>
+	<key>Description</key>
+	<string>Downloads the latest version of Tracker.</string>
+	<key>Identifier</key>
+	<string>com.github.ruphysics.download.Tracker</string>
+	<key>Input</key>
+	<dict>
+                <key>TRACKER_RELEASE</key>
+                <string>6</string>
+                <key>version</key>
+                <string>unk</string>
+                <key>APP_FILENAME</key>
+                <string>Tracker-%version%-osx-installer</string>
+                <key>NAME</key>
+                <string>Tracker</string>
+                <key>SEARCH_URL</key>
+                <string>https://physlets.org/tracker/</string>
+                <key>SEARCH_PATTERN</key>
+                <string>(?P&lt;local_url&gt;[^\"]*download.php\?file=Tracker-(?P&lt;version&gt;%TRACKER_RELEASE%[0-9.]+)-osx-installer.dmg)</string>
+<!--                <string>(?P&lt;url&gt;https\://physlets.org/tracker/installers/download.php\?file=Tracker-(?P&lt;version&gt;%RELEASE%[0-9.]+)-osx-installer.dmg)</string> -->
+
+<!-- https://physlets.org/tracker/installers/download.php?file=Tracker-6.1.2-osx-installer.dmg -->
+	</dict>
+	<key>MinimumVersion</key>
+	<string>1.0.0</string>
+	<key>Process</key>
+	<array>
+
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>url</key>
+				<string>%SEARCH_URL%</string>
+				<key>re_pattern</key>
+				<string>%SEARCH_PATTERN%</string>
+			</dict>
+			<key>Processor</key>
+			<string>URLTextSearcher</string>
+		</dict>
+
+
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>APP_FILENAME</key>
+                <string>Tracker-%version%-osx-installer</string>
+				<key>filename</key>
+				<string>%APP_FILENAME%.dmg</string>
+				<key>url</key>
+				<string>%SEARCH_URL%%local_url%</string>
+			</dict>
+			<key>Processor</key>
+			<string>URLDownloader</string>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>EndOfCheckPhase</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>input_path</key>
+				<string>%pathname%/%APP_FILENAME%.app</string>
+				<key>requirement</key>
+				<string>identifier "edu.davidson.osp.tracker" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "4Z539UE4TT"</string>
+			</dict>
+			<key>Processor</key>
+			<string>CodeSignatureVerifier</string>
+		</dict>
+<!-- >
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>input_plist_path</key>
+				<string>%pathname%/%APP_FILENAME%.app/Contents/Info.plist</string>
+				<key>plist_version_key</key>
+				<string>CFBundleShortVersionString</string>
+			</dict>
+			<key>Processor</key>
+			<string>Versioner</string>
+		</dict>
+-->
+	</array>
+</dict>
+</plist>
