@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Comment</key>
+	<string>custom build based on various templates</string>
+	<key>Description</key>
+	<string>Downloads the latest version of GlobalProtect pkg</string>
+	<key>Identifier</key>
+	<string>com.github.ruphysics.download.GlobalProtect</string>
+	<key>Input</key>
+	<dict>
+                <key>NAME</key>
+                <string>GlobalProtect</string>
+                <key>VPN_HOST</key>
+                <string>my_vpn_host.com</string>
+                <key>URL</key>
+                <string>https://%VPN_HOST%/global-protect/msi/GlobalProtect.pkg</string>
+	</dict>
+	<key>MinimumVersion</key>
+	<string>1.0.0</string>
+	<key>Process</key>
+	<array>
+
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>filename</key>
+				<string>%NAME%.pkg</string>
+				<key>url</key>
+				<string>%URL%</string>
+			</dict>
+			<key>Processor</key>
+			<string>URLDownloader</string>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>EndOfCheckPhase</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>input_path</key>
+				<string>%pathname%</string>
+				<key>expected_authority_names</key>
+        		<array>
+            		<string>Developer ID Installer: Palo Alto Networks (PXPZ95SK77)</string>
+            		<string>Developer ID Certification Authority</string>
+		            <string>Apple Root CA</string>
+        		</array>
+			</dict>
+			<key>Processor</key>
+			<string>CodeSignatureVerifier</string>
+		</dict>
+
+	</array>
+</dict>
+</plist>
