@@ -11,7 +11,7 @@
 	<key>Input</key>
 	<dict>
                 <key>NAME</key>
-                <string>SophosCloud</string>
+                <string>SophosCloudInstaller</string>
                 <key>URL</key>
                 <string>https://URL_FROM_SOPHOS_CONSOLE/SophosInstall.zip</string>
 	</dict>
