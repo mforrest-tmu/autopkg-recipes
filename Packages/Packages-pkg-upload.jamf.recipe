@@ -16,7 +16,7 @@
 	<key>MinimumVersion</key>
 	<string>2.3</string>
 	<key>ParentRecipe</key>
-	<string>com.github.rtrouton.pkg.Packages</string>
+	<string>com.github.tmuphysics.pkg.Packages</string>
 	<key>Process</key>
 	<array>
 		<dict>
