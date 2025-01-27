@@ -18,16 +18,18 @@ need to set:
 		<string>R?????</string>
 		<key>INSTALLER_INPUT</key>
 		<string>%RECIPE_DIR%/installer_input_%ML_RELEASE%.txt</string>
-		<key>INSTALLER_INPUT</key>
+		<key>LICENSE_DAT</key>
 		<string>%RECIPE_DIR%/license.dat</string>
 		<key>SOURCE_DMG</key>
 		<string>matlab.dmg</string>
 		<key>version</key>
 		<string>20220209.1</string>
+        <key>ARCH_JSS</key>
+        <string>arm64</string>
 
 	
 		<key>NAME</key>
-		<string>Matlab %ML_RELEASE%</string>
+		<string>Matlab %ML_RELEASE% %ARCH_JSS%</string>
 	</dict>
 	<key>ParentRecipe</key>
 	<string>com.github.ruphysics.download.Matlab</string>
@@ -180,8 +182,8 @@ case $version in
 		;;
 esac
 
-#debug
 echo exitCode:$exitCode: exitStatus:$exitStatus:
+#debug
 
 
 if [[ $exitCode != 0 ]]; then
