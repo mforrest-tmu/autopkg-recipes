@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Comment</key>
+	<string>Adapted from grahampugh-recipes.jamf.*-pkg-upload</string>
+	<key>Identifier</key>
+	<string>com.github.tmuphysics.jamf.Matlab-pkg-upload</string>
+	<key>Input</key>
+	<dict>
+		
+		<key>ML_RELEASE</key>
+		<string>R2024a</string>
+        <key>ARCH_JSS</key>
+        <string>arm64</string>
+		<key>NAME</key>
+		<string>Matlab %ML_RELEASE% %ARCH_JSS%</string>
+
+
+		
+		<key>INSTALLER_INPUT</key>
+		<string>%RECIPE_DIR%/installer_input_%ML_RELEASE%.txt</string>
+		<key>INSTALLER_INPUT</key>
+		<string>%RECIPE_DIR%/license.dat</string>
+		<key>SOURCE_DMG</key>
+		<string>/Volumes/Software/PACKAGES/MATLAB/matlab_downloads/%ML_RELEASE%/*%ML_RELEASE%*%ARCH_JSS%.dmg</string>
+
+	
+	
+		<key>CATEGORY</key>
+		<string>Digital Media</string>
+	</dict>
+	<key>MinimumVersion</key>
+	<string>2.3</string>
+	<key>ParentRecipe</key>
+	<string>com.github.ruphysics.pkg.Matlab</string>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>category_name</key>
+				<string>%CATEGORY%</string>
+			</dict>
+			<key>Processor</key>
+			<string>com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>pkg_category</key>
+				<string>%CATEGORY%</string>
+			</dict>
+			<key>Processor</key>
+			<string>com.github.grahampugh.jamf-upload.processors/JamfPackageUploader</string>
+		</dict>
+	</array>
+</dict>
+</plist>
