@@ -16,11 +16,9 @@
 		<key>NAME</key>
 		<string>Matlab %ML_RELEASE% %ARCH_JSS%</string>
 
-
-		
 		<key>INSTALLER_INPUT</key>
 		<string>%RECIPE_DIR%/installer_input_%ML_RELEASE%.txt</string>
-		<key>INSTALLER_INPUT</key>
+		<key>LICENSE_DAT</key>
 		<string>%RECIPE_DIR%/license.dat</string>
 		<key>SOURCE_DMG</key>
 		<string>/Volumes/Software/PACKAGES/MATLAB/matlab_downloads/%ML_RELEASE%/*%ML_RELEASE%*%ARCH_JSS%.dmg</string>

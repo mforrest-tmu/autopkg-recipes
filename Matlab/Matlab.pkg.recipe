@@ -22,14 +22,17 @@ need to set:
 		<string>%RECIPE_DIR%/license.dat</string>
 		<key>SOURCE_DMG</key>
 		<string>matlab.dmg</string>
+		<!-- version is extra text ie build_date version (20250617.1) or custom string (u2-physics_standard) -->
 		<key>version</key>
-		<string>20220209.1</string>
+		<string></string>
+		<key>update</key>
+		<string></string>
         <key>ARCH_JSS</key>
         <string>arm64</string>
 
 	
 		<key>NAME</key>
-		<string>Matlab %ML_RELEASE% %ARCH_JSS%</string>
+		<string>Matlab %ML_RELEASE%%update% %ARCH_JSS%</string>
 	</dict>
 	<key>ParentRecipe</key>
 	<string>com.github.ruphysics.download.Matlab</string>
@@ -58,43 +61,18 @@ need to set:
 			</dict>
 		</dict>
 		
-<!-- not needed... always copy from network dmg? may be faster if it doesn't alwasy need to download.... >
 		<dict>
 			<key>Processor</key>
-			<string>URLDownloader</string>
+			<string>com.github.mforrest-rye.autopkg-recipes.matlab-custom/ExpandMatlab</string>
 			<key>Arguments</key>
 			<dict>
-				<key>url</key>
-				<string>file://%SOURCE_DMG%</string>
-			</dict>
-		</dict>
--->
-
-
-		<dict>
-			<key>Processor</key>
-			<string>FileFinder</string>
-			<key>Arguments</key>
-			<dict>
-				<key>pattern</key>
+				<key>ml_dmg</key>
 				<string>%SOURCE_DMG%</string>
+				<key>ml_dir</key>
+				<string>%RECIPE_CACHE_DIR%/Scripts/ml-installer</string>
 			</dict>
 		</dict>
 
-
-		<dict>
-			<key>Processor</key>
-			<string>Copier</string>
-			<key>Arguments</key>
-			<dict>
-				<key>source_path</key>
-				<string>%found_filename%/</string>
-				<key>destination_path</key>
-				<string>%RECIPE_CACHE_DIR%/Scripts/</string>
-				<key>overwrite</key>
-				<true/>
-			</dict>
-		</dict>
 
 		<dict>
 			<key>Processor</key>
@@ -134,7 +112,7 @@ need to set:
 # Script Name:  install_MatLab.sh
 # By:  Zack Thompson / Created:  3/6/2017
 # Version:  1.6 / Updated:  3/29/2018 / By:  ZT github.com/autopkg/MLBZ521-recipes
-# Version: 1.7 / Updated 2/7/2022 / By: mforrest@ryerson.ca
+# Version: 1.8 / Updated 18/6/2025 / By: mforrest@ryerson.ca
 #
 # Description:  This script installs MatLab.
 #
@@ -158,7 +136,7 @@ echo "Installing Matlab..."
 
 
 	# Inject license location to the installer.input file
-	LANG=C /usr/bin/sed -Ei '' 's,(#)? ?licensePath=.*,'"licensePath=${pkgDir}/license.dat"',' "${pkgDir}/installer_input.txt"
+	LANG=C /usr/bin/sed -Ei '' 's,(#)? ?licensePath=.*,'"licensePath=${pkgDir}/license.dat"',;s,.*outputFile=,#outputFile=,;s,.*(product.(GPU_Coder|Spreadsheet_Link)),#\1,' "${pkgDir}/installer_input.txt"
 
 case $version in
 	R2017a)
@@ -171,14 +149,31 @@ case $version in
 		exitStatus=$("${pkgDir}/InstallForMacOSX.app/Contents/MacOS/InstallForMacOSX" -inputFile "${pkgDir}/installer_input.txt")
 		exitCode=$?
 		;;
-	*)
+	R2021a)
 		# R2021a confirmed working
-#debug	
 		echo version:$version
 		echo install_cmd: "${pkgDir}/InstallForMacOSX.app/Contents/MacOS/InstallForMacOSX" -inputFile "${pkgDir}/installer_input.txt"
 
 		exitStatus=$("${pkgDir}/InstallForMacOSX.app/Contents/MacOS/InstallForMacOSX" -inputFile "${pkgDir}/installer_input.txt")
 		exitCode=$?
+		;;
+
+	*)
+	    # starting R2024a? need to use different installers for intel vs arm
+	    # matlab makes a horrible macOS cli installer; hacks below to work around their issues
+
+		echo catchall version:$version
+		ml_installer=$( /usr/bin/find ${pkgDir}/ -path "*/bin/mac*/MathWorksProductInstaller" )
+			echo install_cmd: "${ml_installer}" -inputFile "${pkgDir}/installer_input.txt"
+			#ls -l ${ml_installer}
+
+			exitStatus=$("${ml_installer}" -inputFile "${pkgDir}/installer_input.txt")
+			exitCode=$?
+			
+			if [ $exitCode == 0 ]; then
+				chmod g+w "/Applications/MATLAB_${version}.app/licenses/"
+			fi
+
 		;;
 esac
 
@@ -215,11 +210,11 @@ exit 0</string>
 				<key>pkg_request</key>
 				<dict>
 					<key>pkgname</key>
-					<string>%NAME%-%version%</string>
+					<string>Matlab %ML_RELEASE%%update% %ARCH_JSS%-%version%</string>
 					<key>pkgroot</key>
 					<string>%RECIPE_CACHE_DIR%/pkgroot</string>
 					<key>version</key>
-					<string>%ML_RELEASE%</string>
+					<string>%ML_RELEASE%%update%</string>
 					<key>id</key>
 					<string>com.mathworks.installer</string>
 					<key>options</key>
@@ -238,6 +233,8 @@ exit 0</string>
 				<array>
 					<string>%RECIPE_CACHE_DIR%/pkgroot</string>
 					<string>%RECIPE_CACHE_DIR%/Scripts</string>
+					<string>%RECIPE_CACHE_DIR%/ml_cache</string>
+					<string>%RECIPE_CACHE_DIR%/ml_cache.zip</string>
 				</array>
 			</dict>
 		</dict>
